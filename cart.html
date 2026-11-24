@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Warenkorb | Z1PC</title><link rel="stylesheet" href="/style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"></head>
+<body>
+<header class="topbar scrolled">
+  <a class="brand" href="/" aria-label="Z1PC Startseite"><img src="/logo-128.png" alt="Z1PC" width="52" height="52"></a>
+  <nav id="nav"><a href="/#home">Startseite</a><a href="/#systems">Shop</a><a href="/#custom">Konfigurator</a><a href="/support.html">Help Center</a></nav>
+  <div class="tools"><button class="cart-btn" id="cartOpen" aria-label="Warenkorb">Warenkorb <b id="cartCount">0</b></button></div>
+</header>
+
+<div class="page-head"><h1>Dein Warenkorb</h1><p class="muted">Prüfe deine Auswahl, trag deine Daten ein und schick die Bestellung ab. Bezahlt wird erst, nachdem wir alles bestätigt haben.</p></div>
+
+<main class="cartpage">
+  <section class="cp-list" aria-label="Artikel"><div id="pageItems"></div></section>
+
+  <aside class="cp-side">
+    <div class="ci-sum" id="pageSum"></div>
+    <p class="tiny" id="estNote" hidden>Enthält Richtpreise. Den Endpreis bestätigen wir dir nach Prüfung der Kompatibilität.</p>
+
+    <form id="f" class="cp-form" novalidate>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <fieldset class="fset">
+        <legend>1 · Deine Daten</legend>
+        <label class="field" data-f="name"><span>Name <i class="req">*</i></span><input name="name" maxlength="100" autocomplete="name" required><span class="err">Bitte gib deinen Namen ein.</span></label>
+        <label class="field" data-f="contact"><span>E-Mail oder Telefon / Telegram <i class="req">*</i></span><input name="contact" maxlength="150" autocomplete="email" placeholder="z. B. name@mail.de oder +49 …" required><span class="err">Bitte gib eine gültige E-Mail, Telefonnummer oder @Telegram-Namen an.</span></label>
+      </fieldset>
+
+      <fieldset class="fset">
+        <legend>2 · Lieferung</legend>
+        <label class="field" data-f="delivery"><span>Wie möchtest du den PC bekommen? <i class="req">*</i></span>
+          <select name="delivery" id="del">
+            <option>Abholung</option>
+            <option>Lieferung (Dortmund, bis 30 km, kostenlos)</option>
+            <option>Versand (Kosten nach Absprache)</option>
+          </select></label>
+        <div id="adr" hidden class="cp-form">
+          <label class="field" data-f="street"><span>Straße und Hausnummer <i class="req">*</i></span><input name="street" maxlength="120" autocomplete="street-address"><span class="err">Bitte gib Straße und Hausnummer ein.</span></label>
+          <div class="two">
+            <label class="field" data-f="zip"><span>PLZ <i class="req">*</i></span><input name="zip" maxlength="10" inputmode="numeric" autocomplete="postal-code"><span class="err">Bitte PLZ eingeben.</span></label>
+            <label class="field" data-f="city"><span>Ort <i class="req">*</i></span><input name="city" maxlength="80" autocomplete="address-level2"><span class="err">Bitte Ort eingeben.</span></label>
+          </div>
+        </div>
+        <p class="tiny">Lieferung im Umkreis von 30 km um Dortmund ist kostenlos.</p>
+      </fieldset>
+
+      <fieldset class="fset">
+        <legend>3 · Zahlung</legend>
+        <label class="field" data-f="payment"><span>Zahlungsart <i class="req">*</i></span>
+          <select name="payment"><option>Barzahlung vor Ort</option><option>Überweisung</option><option>PayPal</option></select></label>
+        <p class="tiny">Online wird nichts abgebucht. Die Zahlungsdaten schicken wir dir nach der Bestätigung persönlich.</p>
+        <label class="field" data-f="message"><span>Nachricht <span class="opt">optional</span></span><textarea name="message" rows="3" maxlength="3000"></textarea></label>
+      </fieldset>
+
+      <label class="chk" data-f="consent"><input type="checkbox" name="consent" required><span>Ich habe die <a href="/agb.html" target="_blank">AGB</a>, die <a href="/widerruf.html" target="_blank">Widerrufsbelehrung</a> und die <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a> gelesen und bin mit der Speicherung meiner Angaben zur Bearbeitung der Bestellung einverstanden. <i class="req">*</i></span><span class="err">Bitte stimme zu, damit wir deine Bestellung bearbeiten dürfen.</span></label>
+
+      <button class="btn red" type="submit">Zahlungspflichtig bestellen</button>
+      <p class="form-out" id="out" role="status"></p>
+    </form>
+  </aside>
+</main>
+
+<footer>
+  <a class="brand" href="/" aria-label="Z1PC"><img src="/logo-128.png" alt="Z1PC" width="44" height="44"></a>
+  <p>© 2026 Z1PC</p>
+  <div><a href="/impressum.html">Impressum</a><a href="/datenschutz.html">Datenschutz</a><a href="/agb.html">AGB</a><a href="/widerruf.html">Widerruf</a></div>
+</footer>
+
+<script src="/cart.js"></script>
+<script>
+const f = document.getElementById('f'), out = document.getElementById('out'), sum = document.getElementById('pageSum'), del = document.getElementById('del'), adr = document.getElementById('adr');
+const mk = (t, x) => Object.assign(document.createElement(t), { textContent: x });
+
+function paint() {
+  Cart.list(document.getElementById('pageItems'));
+  const hasPrice = Cart.items.some(i => i.price == null);
+  sum.replaceChildren(mk('span', Cart.hasEst() ? 'Gesamt (ca.)' : 'Gesamt'), mk('b', (Cart.hasEst() ? 'ca. ' : '') + Cart.eur(Cart.total()) + (hasPrice ? ' + Rest auf Anfrage' : '')));
+  document.getElementById('estNote').hidden = !Cart.hasEst();
+  f.hidden = !Cart.items.length;
+}
+Cart.sub(paint); paint();
+
+del.onchange = () => { adr.hidden = del.value.startsWith('Abholung'); };
+
+const rules = {
+  name: v => v.trim().length >= 2,
+  contact: v => { v = v.trim(); return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || v.replace(/\D/g, '').length >= 7 || /^@?[A-Za-z]\w{3,}$/.test(v); },
+  street: v => v.trim().length >= 3 && /\d/.test(v),
+  zip: v => /^\d{4,5}$/.test(v.trim()),
+  city: v => v.trim().length >= 2,
+  consent: (v, el) => el.checked
+};
+function check(name) {
+  const wrap = f.querySelector('[data-f="' + name + '"]'); if (!wrap) return true;
+  const el = f.elements[name], needsAdr = ['street', 'zip', 'city'].includes(name);
+  if (needsAdr && adr.hidden) { wrap.classList.remove('bad'); return true; }
+  const ok = rules[name](el.value || '', el); wrap.classList.toggle('bad', !ok); return ok;
+}
+for (const n of Object.keys(rules)) { const el = f.elements[n]; el.addEventListener('blur', () => el.value && check(n)); el.addEventListener('input', () => f.querySelector('[data-f="' + n + '"]').classList.contains('bad') && check(n)); el.addEventListener('change', () => n === 'consent' && check(n)); }
+
+f.onsubmit = async e => {
+  e.preventDefault();
+  if (!Cart.items.length) { out.textContent = 'Dein Warenkorb ist leer.'; out.className = 'form-out show fail'; return; }
+  const results = Object.keys(rules).map(n => [n, check(n)]), firstBad = results.find(r => !r[1]);
+  out.className = 'form-out';
+  if (firstBad) { const el = f.elements[firstBad[0]]; el.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => el.focus({ preventScroll: true }), 300); out.textContent = 'Bitte prüfe die rot markierten Felder.'; out.className = 'form-out show fail'; return; }
+  const b = Object.fromEntries(new FormData(f)); b.consent = true; b.lang = localStorage.getItem('z1pc-lang') || 'de';
+  b.cart = Cart.items.map(({ id, name, qty, detail, note, est, price }) => ({ id, name, qty, detail, note, est, price: est ? price : undefined }));
+  const btn = f.querySelector('button[type=submit]'); btn.disabled = true; out.textContent = 'Wird gesendet …'; out.className = 'form-out show';
+  try {
+    const r = await fetch('/api/inquiry', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) }), j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.ok) throw j.error || 0;
+    try { localStorage.setItem('z1pc-chat', j.token); } catch {}
+    const em = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(b.contact).trim());
+    Cart.clear(); f.reset(); adr.hidden = true;
+    out.textContent = 'Danke für dein Vertrauen! Deine Bestellung ' + j.ref + ' ist eingegangen. Wir melden uns persönlich bei dir und bestätigen den Endpreis.' + (em && j.emailConfigured ? ' Eine Bestätigung ist per E-Mail unterwegs.' : '') + ' Fragen? Schreib uns im Live-Chat (Button unten rechts).'; out.className = 'form-out show ok';
+    f.hidden = false; f.querySelectorAll('fieldset,.chk,button').forEach(x => x.hidden = true);
+  } catch (err) { if (err === 'rate_limited') { out.textContent = 'Zu viele Bestellungen in kurzer Zeit. Bitte versuch es später noch einmal.'; out.className = 'form-out show fail'; btn.disabled = false; return; } out.textContent = 'Senden hat nicht geklappt. Bitte versuche es gleich noch einmal oder schreib uns über WhatsApp oder Telegram.'; out.className = 'form-out show fail'; btn.disabled = false; }
+};
+</script>
+<script src="/chat.js"></script>
+</body></html>

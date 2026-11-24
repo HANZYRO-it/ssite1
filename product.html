@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="index,follow">
+<title>Produkt | Z1PC</title><link rel="stylesheet" href="/style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"></head>
+<body>
+<header class="topbar scrolled">
+  <a class="brand" href="/" aria-label="Z1PC Startseite"><img src="/logo-128.png" alt="Z1PC" width="52" height="52"></a>
+  <nav id="nav"><a href="/#home">Startseite</a><a href="/#systems">Shop</a><a href="/#custom">Konfigurator</a><a href="/support.html">Help Center</a></nav>
+  <div class="tools"><button class="cart-btn" id="cartOpen" aria-label="Warenkorb">Warenkorb <b id="cartCount">0</b></button></div>
+</header>
+<main class="detail"><a class="dback" href="/#systems" id="back">← Zur Produktübersicht</a><div id="product"><p class="muted">Produkt wird geladen …</p></div></main>
+<footer>
+  <a class="brand" href="/" aria-label="Z1PC"><img src="/logo-128.png" alt="Z1PC" width="44" height="44"></a>
+  <p>© 2026 Z1PC</p>
+  <div><a href="/impressum.html">Impressum</a><a href="/datenschutz.html">Datenschutz</a><a href="/agb.html">AGB</a><a href="/widerruf.html">Widerruf</a></div>
+</footer>
+<script src="/cart.js"></script>
+<script>
+(async () => {
+  const lang = localStorage.getItem('z1pc-lang') || 'de';
+  const LL = {
+    de: { back: '← Zur Produktübersicht', price: 'Preis auf Anfrage', desc: 'Weitere Produktinformationen folgen.', add: 'In den Warenkorb', overview: 'Zur Übersicht', sold: 'Verkauft', parts: 'PC-Teile', missing: 'Produkt nicht gefunden', unavailable: 'Dieses Produkt ist nicht verfügbar oder wurde deaktiviert.' },
+    en: { back: '← Back to products', price: 'Price on request', desc: 'More product information coming soon.', add: 'Add to cart', overview: 'Back to overview', sold: 'Sold', parts: 'PC parts', missing: 'Product not found', unavailable: 'This product is unavailable or hidden.' },
+    ru: { back: '← К списку товаров', price: 'Цена по запросу', desc: 'Дополнительная информация скоро появится.', add: 'В корзину', overview: 'К списку', sold: 'Продано', parts: 'Комплектующие', missing: 'Товар не найден', unavailable: 'Товар недоступен или скрыт.' },
+    uk: { back: '← До списку товарів', price: 'Ціна за запитом', desc: 'Додаткова інформація з’явиться згодом.', add: 'До кошика', overview: 'До списку', sold: 'Продано', parts: 'Комплектуючі', missing: 'Товар не знайдено', unavailable: 'Товар недоступний або прихований.' }
+  };
+  const L = LL[lang] || LL.de, host = document.getElementById('product'), id = new URLSearchParams(location.search).get('id');
+  document.getElementById('back').textContent = L.back;
+  const mk = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+  try {
+    const r = await fetch('/api/products'); if (!r.ok) throw Error();
+    const p = (await r.json()).find(x => String(x.id) === id); if (!p) throw Error('missing');
+    document.title = p.name + ' | Z1PC';
+    host.replaceChildren();
+    const grid = mk('div', 'dgrid'), photo = mk('div', 'dphoto'); let thumbs = null;
+    const img = mk('img'); img.alt = p.name;
+    if (p.has_img) {
+      const urls = [...Array(1 + (p.extra_n || 0)).keys()].map(n => '/api/product-image?id=' + p.id + '&n=' + n + '&v=' + encodeURIComponent(p.updated_at || ''));
+      img.src = urls[0];
+      if (urls.length > 1) {
+        thumbs = mk('div', 'dthumbs');
+        urls.forEach((u, i) => { const t = mk('button', 'dthumb' + (i ? '' : ' on')); t.type = 'button'; const im = mk('img'); im.src = u; im.alt = ''; t.append(im); t.onclick = () => { img.src = u; thumbs.querySelectorAll('.dthumb').forEach(x => x.classList.remove('on')); t.classList.add('on'); }; thumbs.append(t); });
+      }
+    } else { img.src = '/logo.png'; img.className = 'is-logo'; }
+    photo.append(img);
+    const info = mk('div', 'dinfo');
+    const price = mk('div', 'dprice', p.price == null ? L.price : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(p.price));
+    const specs = mk('ul', 'dspec'); (p.specs || '').split(/\n/).filter(Boolean).forEach(s => specs.append(mk('li', '', s)));
+    info.append(mk('h1', '', p.name), price, Object.assign(mk('p', 'dtext'), { textContent: p.description || L.desc }), specs);
+    const pl = (p.parts || '').split(/\n/).filter(Boolean);
+    if (pl.length) {
+      const pw = mk('div', 'dparts'); pw.append(mk('h3', '', L.parts));
+      pl.forEach(l => { const i = l.indexOf(':'), row = mk('div', 'prow'); row.append(mk('span', '', i > 0 ? l.slice(0, i).trim() : ''), mk('b', '', i > 0 ? l.slice(i + 1).trim() : l)); pw.append(row); });
+      info.append(pw);
+    }
+    const actions = mk('div', 'dactions'), add = mk('button', 'btn red', p.status === 'sold' ? L.sold : L.add); add.disabled = p.status === 'sold';
+    add.onclick = () => Cart.add({ id: p.id, name: p.name, price: p.price, img: p.has_img ? '/api/product-image?id=' + p.id : '', sub: (p.specs || '').split(/\n/).filter(Boolean).slice(0, 2).join(' · ') });
+    actions.append(add, Object.assign(mk('a', 'btn outline', L.overview), { href: '/#systems' })); info.append(actions);
+    const left = mk('div'); left.append(photo); if (thumbs) left.append(thumbs);
+    grid.append(left, info); host.append(grid);
+  } catch {
+    host.replaceChildren(mk('h1', '', L.missing), mk('p', 'muted', L.unavailable), Object.assign(mk('a', 'btn outline', L.overview), { href: '/' }));
+  }
+})();
+</script>
+<script src="/chat.js"></script>
+</body></html>

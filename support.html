@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Help Center | Z1PC</title><link rel="stylesheet" href="/style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"></head>
+<body>
+<header class="topbar scrolled">
+  <a class="brand" href="/" aria-label="Z1PC Startseite"><img src="/logo-128.png" alt="Z1PC" width="52" height="52"></a>
+  <nav id="nav"><a href="/#home">Startseite</a><a href="/#systems">Shop</a><a href="/#custom">Konfigurator</a><a href="/support.html" class="on">Help Center</a></nav>
+  <div class="tools"><button class="cart-btn" id="cartOpen" aria-label="Warenkorb">Warenkorb <b id="cartCount">0</b></button></div>
+</header>
+
+<section class="hc-hero">
+  <p class="kicker">Help Center</p>
+  <h1>Wie können wir helfen?</h1>
+  <input class="hc-search" id="q" type="search" placeholder="Frage suchen, z. B. Lieferung, Zahlung, Garantie …" aria-label="Fragen durchsuchen">
+</section>
+
+<main class="hc-wrap" id="faq">
+  <h2>Bestellung &amp; Zahlung</h2>
+  <details><summary>Wie bestelle ich?</summary><p>Lege Produkte oder deinen konfigurierten PC in den Warenkorb, trag Name, Kontakt, Lieferart und Zahlungsart ein und sende die Bestellung ab. Wir melden uns danach persönlich, bestätigen alles und nennen dir den Endpreis.</p></details>
+  <details><summary>Welche Zahlungsarten gibt es?</summary><p>Barzahlung vor Ort, Überweisung oder PayPal. Online wird nichts abgebucht: Die Zahlungsdaten schicken wir dir nach der Bestätigung persönlich.</p></details>
+  <details><summary>Wie genau ist der Preis im Konfigurator?</summary><p>Der Konfigurator zeigt einen Richtpreis nach aktuellen Marktpreisen. Er enthält Mainboard, Netzteil, Gehäuse, Kühlung und Zusammenbau. Weil sich Hardwarepreise täglich ändern, bestätigen wir dir den Endpreis nach der Prüfung deiner Konfiguration.</p></details>
+  <details><summary>Wie sehe ich den Stand meiner Bestellung?</summary><p>Nach dem Absenden bekommst du eine Bestellnummer. Wir melden uns über den Kontaktweg, den du angegeben hast. Bei Versand schicken wir dir die Sendungsnummer.</p></details>
+
+  <h2>Lieferung &amp; Abholung</h2>
+  <details><summary>Was kostet die Lieferung?</summary><p>Lieferung im Umkreis von 30 km um Dortmund ist kostenlos. Für Versand außerhalb nennen wir dir die Kosten vorab.</p></details>
+  <details><summary>Kann ich selbst abholen?</summary><p>Ja. Wähle bei der Bestellung „Abholung“, den Termin sprechen wir persönlich ab.</p></details>
+
+  <h2>PCs &amp; Konfigurator</h2>
+  <details><summary>Kann ich einen PC selbst zusammenstellen?</summary><p>Ja. Im Konfigurator wählst du Prozessor, Grafikkarte, Arbeitsspeicher, Speicher und Gehäusefarbe und beschreibst, wofür du den PC brauchst. Wir prüfen die Kompatibilität, bevor wir dir den Endpreis bestätigen.</p></details>
+  <details><summary>Warum muss ich meine Wünsche beschreiben?</summary><p>Damit wir uns deinen PC konkret vorstellen können: Verwendungszweck, Spiele oder Programme, Monitor, Optik und Lautstärke. So bauen wir genau den PC, den du brauchst.</p></details>
+  <details><summary>Welche Teile stecken in einem PC?</summary><p>Auf der Produktseite jedes PCs siehst du unter „PC-Teile“ jedes Bauteil einzeln aufgelistet.</p></details>
+  <details><summary>Was sind Creator Setups?</summary><p>Fertige Pakete für kreatives Arbeiten, zum Beispiel PC mit Monitor und Zubehör. Was genau enthalten ist, steht auf der jeweiligen Produktseite.</p></details>
+
+  <h2>Rechtliches</h2>
+  <details><summary>Gibt es Widerruf und Garantie?</summary><p>Die Bedingungen findest du auf den Seiten <a href="/widerruf.html">Widerruf</a> und <a href="/agb.html">AGB</a>. Bei Fragen melde dich gern direkt bei uns.</p></details>
+  <details><summary>Wie werden meine Daten verwendet?</summary><p>Deine Angaben werden nur zur Bearbeitung deiner Bestellung oder Anfrage gespeichert. Details stehen in der <a href="/datenschutz.html">Datenschutzerklärung</a>.</p></details>
+
+  <p class="muted" id="none" hidden>Nichts gefunden. <a href="#frage">Stell uns deine Frage</a> – wir antworten dir hier.</p>
+</main>
+
+<section class="hc-ask" id="frage">
+  <div class="box">
+    <h2>Deine Frage an uns</h2>
+    <p class="muted">Nichts Passendes gefunden? Schreib uns. Unser Support antwortet dir direkt hier im Help Center – und per E-Mail, wenn du eine angibst.</p>
+    <form id="qf" class="form" novalidate style="margin-top:18px">
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="two">
+        <label class="field" data-f="name"><span>Name <i class="req">*</i></span><input name="name" maxlength="100" autocomplete="name"><span class="err">Bitte gib deinen Namen ein.</span></label>
+        <label class="field" data-f="contact"><span>E-Mail oder Telefon / Telegram <i class="req">*</i></span><input name="contact" maxlength="150" autocomplete="email"><span class="err">Bitte gib eine gültige E-Mail, Telefonnummer oder @Telegram-Namen an.</span></label>
+      </div>
+      <label class="field" data-f="text"><span>Deine Frage <i class="req">*</i></span><textarea name="text" rows="5" maxlength="2000" placeholder="Worum geht es? Je genauer, desto schneller können wir helfen."></textarea><span class="err">Bitte beschreibe deine Frage in mindestens 10 Zeichen.</span></label>
+      <label class="chk" data-f="consent"><input type="checkbox" name="consent"><span>Ich bin damit einverstanden, dass meine Angaben zur Beantwortung der Frage gespeichert werden (siehe <a href="/datenschutz.html" target="_blank">Datenschutz</a>). <i class="req">*</i></span><span class="err">Bitte stimme zu, damit wir deine Frage beantworten dürfen.</span></label>
+      <button class="btn red" type="submit">Frage absenden</button>
+      <p class="form-out" id="qout" role="status"></p>
+    </form>
+
+    <div id="mine" hidden>
+      <h2 style="margin-top:38px;font-size:30px">Deine Fragen &amp; Antworten</h2>
+      <div class="myq" id="myq"></div>
+    </div>
+
+    <details style="margin-top:26px;border:1px solid var(--line);border-radius:12px;padding:0 4px">
+      <summary style="cursor:pointer;padding:16px 18px;font-weight:700">Frage mit Nummer abrufen (anderes Gerät)</summary>
+      <form id="lf" class="form" novalidate style="padding:0 18px 18px">
+        <div class="two">
+          <label class="field"><span>Fragenummer</span><input name="ref" placeholder="Z1PC-Q-2026-000001"></label>
+          <label class="field"><span>E-Mail / Telefon wie angegeben</span><input name="contact"></label>
+        </div>
+        <button class="btn outline" type="submit">Abrufen</button>
+        <p class="form-out" id="lout" role="status"></p>
+      </form>
+    </details>
+
+    <div class="hc-contact" id="ct"></div>
+  </div>
+</section>
+
+<footer>
+  <a class="brand" href="/" aria-label="Z1PC"><img src="/logo-128.png" alt="Z1PC" width="44" height="44"></a>
+  <p>© 2026 Z1PC</p>
+  <div><a href="/impressum.html">Impressum</a><a href="/datenschutz.html">Datenschutz</a><a href="/agb.html">AGB</a><a href="/widerruf.html">Widerruf</a></div>
+</footer>
+
+<script src="/cart.js"></script>
+<script>
+/* Suche */
+const q = document.getElementById('q'), ds = [...document.querySelectorAll('#faq details')];
+q.oninput = () => {
+  const v = q.value.toLowerCase().trim(); let n = 0;
+  ds.forEach(d => { const m = !v || d.textContent.toLowerCase().includes(v); d.hidden = !m; if (m) n++; d.open = !!v && m; });
+  document.querySelectorAll('#faq h2').forEach(h => { let e = h.nextElementSibling, any = false; while (e && e.tagName === 'DETAILS') { if (!e.hidden) any = true; e = e.nextElementSibling; } h.hidden = !any; });
+  document.getElementById('none').hidden = n > 0;
+};
+
+/* Frage stellen */
+const qf = document.getElementById('qf'), qout = document.getElementById('qout'), KEY = 'z1pc-questions';
+const rules = {
+  name: v => v.trim().length >= 2,
+  contact: v => { v = v.trim(); return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || v.replace(/\D/g, '').length >= 7 || /^@?[A-Za-z]\w{3,}$/.test(v); },
+  text: v => v.trim().length >= 10,
+  consent: (v, el) => el.checked
+};
+function check(n) { const w = qf.querySelector('[data-f="' + n + '"]'), el = qf.elements[n], ok = rules[n](el.value || '', el); w.classList.toggle('bad', !ok); return ok; }
+for (const n in rules) { const el = qf.elements[n]; el.addEventListener('blur', () => el.value && check(n)); el.addEventListener('input', () => qf.querySelector('[data-f="' + n + '"]').classList.contains('bad') && check(n)); el.addEventListener('change', () => n === 'consent' && check(n)); }
+
+const saved = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } };
+const store = list => { try { localStorage.setItem(KEY, JSON.stringify(list.slice(0, 20))); } catch {} };
+
+qf.onsubmit = async e => {
+  e.preventDefault(); qout.className = 'form-out';
+  const bad = Object.keys(rules).filter(n => !check(n));
+  if (bad.length) { const el = qf.elements[bad[0]]; el.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => el.focus({ preventScroll: true }), 300); qout.textContent = 'Bitte prüfe die rot markierten Felder.'; qout.className = 'form-out show fail'; return; }
+  const b = Object.fromEntries(new FormData(qf)); b.consent = true; b.lang = localStorage.getItem('z1pc-lang') || 'de';
+  const btn = qf.querySelector('button[type=submit]'); btn.disabled = true; qout.textContent = 'Wird gesendet …'; qout.className = 'form-out show';
+  try {
+    const r = await fetch('/api/question', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) }), j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.ok) throw 0;
+    store([{ ref: j.ref, contact: b.contact.trim() }, ...saved().filter(x => x.ref !== j.ref)]);
+    qf.reset(); qout.textContent = 'Danke! Deine Frage ' + j.ref + ' ist angekommen. Die Antwort erscheint hier unter „Deine Fragen & Antworten“.'; qout.className = 'form-out show ok'; loadMine();
+  } catch { qout.textContent = 'Senden hat nicht geklappt. Bitte versuche es gleich noch einmal oder schreib uns über WhatsApp oder Telegram.'; qout.className = 'form-out show fail'; }
+  btn.disabled = false;
+};
+
+/* Fragen + Antworten anzeigen */
+const fmtD = s => new Date(String(s).replace(' ', 'T') + 'Z').toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' });
+function card(x) {
+  const c = document.createElement('div'); c.className = 'q-card';
+  const h = document.createElement('small'); h.textContent = x.ref + ' · ' + fmtD(x.created_at) + ' '; const st = document.createElement('span'); st.className = 'st' + (x.answer ? ' done' : ''); st.textContent = x.answer ? 'Beantwortet' : 'In Bearbeitung'; h.append(st);
+  const p = document.createElement('p'); p.textContent = x.text; c.append(h, p);
+  if (x.answer) { const a = document.createElement('div'); a.className = 'ans'; const l = document.createElement('b'); l.textContent = 'Antwort vom Z1PC-Support'; const t = document.createElement('p'); t.textContent = x.answer; t.style.margin = 0; a.append(l, t); c.append(a); }
+  return c;
+}
+async function fetchQ(ref, contact) { const r = await fetch('/api/question?ref=' + encodeURIComponent(ref) + '&contact=' + encodeURIComponent(contact)); if (!r.ok) return null; return r.json(); }
+async function loadMine() {
+  const list = saved(), host = document.getElementById('myq'); if (!list.length) return;
+  const res = (await Promise.all(list.map(x => fetchQ(x.ref, x.contact).catch(() => null)))).filter(Boolean);
+  host.replaceChildren(...res.map(card)); document.getElementById('mine').hidden = !res.length;
+}
+loadMine();
+
+document.getElementById('lf').onsubmit = async e => {
+  e.preventDefault(); const f = e.target, o = document.getElementById('lout'); o.className = 'form-out show'; o.textContent = 'Suche …';
+  const ref = f.ref.value.trim(), contact = f.contact.value.trim();
+  const x = ref && contact ? await fetchQ(ref, contact).catch(() => null) : null;
+  if (!x) { o.textContent = 'Dazu haben wir nichts gefunden. Bitte Nummer und Kontakt genau wie bei der Frage eingeben.'; o.className = 'form-out show fail'; return; }
+  store([{ ref: x.ref, contact }, ...saved().filter(s => s.ref !== x.ref)]); o.className = 'form-out'; f.reset(); loadMine();
+};
+
+/* Kontaktwege aus dem Admin */
+fetch('/api/settings').then(r => r.ok ? r.json() : {}).then(s => {
+  const c = document.getElementById('ct'), a = (h, t) => { const e = document.createElement('a'); e.href = h; e.target = '_blank'; e.rel = 'noopener'; e.textContent = t; c.append(e); };
+  if (s.whatsapp) a('https://wa.me/' + s.whatsapp.replace(/\D/g, ''), 'WhatsApp');
+  if (s.telegram) a('https://t.me/' + s.telegram.replace(/^@/, ''), 'Telegram');
+  if (s.publicEmail) a('mailto:' + s.publicEmail, 'E-Mail');
+  if (s.phone) a('tel:' + s.phone.replace(/\s/g, ''), 'Telefon: ' + s.phone);
+}).catch(() => {});
+</script>
+<script src="/chat.js"></script>
+</body></html>
